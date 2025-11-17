@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Groq AI Chat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .chat-container {
+            max-width: 800px;
+            margin-top: 50px;
+            padding-bottom: 50px;
+        }
+        .ai-response {
+            background-color: #ffffff;
+            border-left: 5px solid #0d6efd;
+        }
+        /* --- NEW: STYLES FOR CODE BLOCKS --- */
+        pre {
+            background-color: #282c34; /* Dark gray background */
+            color: #abb2bf;           /* Light gray text */
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;         /* Horizontal scroll for long lines */
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+        /* Style for inline code (single backticks) */
+        p code {
+            background-color: #e9ecef;
+            color: #d63384;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container chat-container">
+        
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary"><i class="bi bi-robot"></i> Ask Groq AI</h1>
+            <p class="lead text-muted">Powered by Spring Boot & Llama 3</p>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-body p-4">
+                <form action="/ask" method="get">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                        <input type="text" name="question" class="form-control border-start-0" 
+                               placeholder="Ask anything (e.g., 'Write a Java generic class')..." 
+                               required th:value="${question}" autocomplete="off">
+                        <button class="btn btn-primary px-4" type="submit">Ask <i class="bi bi-send-fill ms-2"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div th:if="${answer}" class="fade-in-up">
+            
+            <div class="d-flex align-items-center mb-3 ms-3">
+                 <i class="bi bi-person-circle fs-3 text-secondary me-3"></i>
+                 <div>
+                     <h6 class="fw-bold mb-0 text-secondary">You</h6>
+                     <p class="mb-0 fs-5" th:text="${question}"></p>
+                 </div>
+            </div>
+
+            <div class="card shadow-sm ai-response">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-stars fs-3 text-primary me-3"></i>
+                        <h6 class="fw-bold mb-0 text-primary">Groq AI</h6>
+                    </div>
+                    
+                    <div class="fs-5" th:utext="${answer}"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
