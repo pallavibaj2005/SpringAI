@@ -1,148 +1,124 @@
-🚀 SpringAI – Spring Boot + Groq LLM Chat Application
+# 🚀 SpringAI – Intelligent Chat with Spring Boot + Groq Llama 3
 
-SpringAI is a lightweight, production-ready AI chat interface built using Spring Boot, Groq LLM API, and Thymeleaf.
-It provides a clean backend + frontend setup that lets users ask questions and receive AI-generated responses using Llama 3 models running on Groq’s ultra-fast inference engine.
+**SpringAI** is a fast, production-ready AI chat web application combining Spring Boot with [Groq](https://groq.com/)’s Llama 3 model for intelligent, conversational experiences.
 
-🌟 Key Features
-🔹 Groq API Integration (Llama 3.1 8B - Instant Model)
+Built for developers and enthusiasts, SpringAI provides a secure, elegant backend + frontend setup, allowing users to interact with state-of-the-art LLMs through a clean, responsive UI.
 
-Sends user prompts to Groq’s /chat/completions endpoint
+---
 
-Returns conversational AI responses
+## 🌟 Features
 
-Uses fast and low-latency inference
+- **Groq API Integration (Llama 3.1 8B - Instant Model)**
+  - Send user prompts to Groq `/chat/completions` endpoint
+  - Get fast, low-latency conversational AI responses
 
-🔹 Secure API Key Handling
+- **Secure API Key Management**
+  - No hard-coded secrets!
+  - Uses environment variables (`GROQ_API_KEY`) for Groq credentials
 
-No hard-coded secrets
+- **Markdown → HTML Rendering**
+  - Code blocks
+  - Inline code
+  - Headings, lists, formatting
+  - Powered by CommonMark parser/renderer
 
-Uses environment variables:
+- **Responsive Bootstrap UI + Thymeleaf Templates**
+  - Chat-style interface
+  - Intuitive input/output handling
 
-groq.api.key=${GROQ_API_KEY}
+---
 
-🔹 Markdown → HTML Rendering
+## 📁 Project Structure
 
-Supports:
-
-Code blocks
-
-Inline code
-
-Headings
-
-Lists
-
-Formatting
-
-Using CommonMark parser + renderer
-
-🔹 Bootstrap UI + Thymeleaf
-
-Fully responsive interface
-
-Input form + chat-style output
-
-Clean UX for AI responses
-
-📁 Project Structure
+```
 src/main/java/com/example/QueryAI/
 │
-├── AiController.java                # Handles UI + Groq API requests
-├── QueryAi1Application.java         # Main Spring Boot class
+├── AiController.java              # Handles UI + Groq API requests
+├── QueryAi1Application.java       # Main Spring Boot class
 │
 src/main/resources/
 │
 ├── templates/
-│   └── index.html                  # Chat UI
+│   └── index.html                 # Chat UI (Thymeleaf)
 │
-└── application.properties           # Reads GROQ_API_KEY from environment
+└── application.properties         # Reads GROQ_API_KEY from environment
+```
 
-🔥 How It Works (Backend Flow)
-1️⃣ User submits question via /ask?question=...
-2️⃣ Controller builds JSON request:
-{
-  "model": "llama-3.1-8b-instant",
-  "messages": [
+---
+
+## 🔥 How the Backend Works
+
+1. **User submits a question** via `/ask?question=...`
+2. **AiController** builds a JSON request:
+    ```json
     {
-      "role": "user",
-      "content": "Your question"
+      "model": "llama-3.1-8b-instant",
+      "messages": [ { "role": "user", "content": "Your question" } ]
     }
-  ]
-}
+    ```
+3. **Spring Boot** sends an HTTP POST to `https://api.groq.com/openai/v1/chat/completions`
+4. **Groq API** returns structured JSON. Controller extracts `choices[0].message.content`.
+5. **Markdown response** is parsed & rendered to HTML (CommonMark).
+6. **Thymeleaf UI** displays the formatted, interactive reply.
 
-3️⃣ Spring sends HTTPS POST request to:
-https://api.groq.com/openai/v1/chat/completions
+---
 
-4️⃣ API returns structured JSON
+## 🛣️ API Endpoints
 
-Controller extracts:
+- `GET /`  
+  Loads the chat UI page.
+- `GET /ask?question=your_text_here`  
+  Submits the user’s query to Groq, returns a rich AI-generated HTML response.
 
-choices[0].message.content
+---
 
-5️⃣ Markdown → HTML conversion
+## 🔐 Environment Variable Setup
 
-Uses CommonMark to render:
-
-Code blocks (```java)
-
-Inline code
-
-Bold/italic
-
-Headings
-
-6️⃣ Thymeleaf displays formatted HTML response
-📌 API Endpoints
-GET /
-
-Loads the UI page.
-
-GET /ask?question=your_text_here
-
-Sends user query to Groq and returns rendered HTML response.
-
-🔐 Environment Variable Setup
-Windows (PowerShell)
+**Windows (PowerShell):**
+```shell
 setx GROQ_API_KEY "your_api_key_here"
+```
 
-Mac/Linux (bash)
+**Mac/Linux (bash):**
+```bash
 export GROQ_API_KEY="your_api_key_here"
+```
 
-application.properties
+**application.properties:**
+```properties
 groq.api.key=${GROQ_API_KEY}
 server.port=8080
+```
 
-▶️ Running the Project
-mvn spring-boot:run
+---
 
+## ▶️ Running the Project
 
-Visit:
+1. Make sure your environment variable is set: `GROQ_API_KEY`
+2. Start the app:
+    ```shell
+    mvn spring-boot:run
+    ```
+3. Open [http://localhost:8080/](http://localhost:8080/) in your browser.
 
-http://localhost:8080/
+---
 
+## 🧩 Dependencies Used
 
-🧩 Dependencies Used
+- Spring Boot Web + Thymeleaf
+- Java 17+
+- CommonMark (Markdown parsing & rendering)
 
-Spring Boot Web + Thymeleaf
+---
 
-Java 17+
+## 🎯 Why SpringAI?
 
-CommonMark (Markdown parser + renderer)
+SpringAI demonstrates:
 
-org.json
+- Seamless integration between Spring Boot and Groq’s blazing-fast LLMs
+- Full Markdown pipeline: AI → Markdown → HTML → UX
+- Minimal, elegant UI powered by Thymeleaf and Bootstrap
+- Perfect starting point for building your own custom LLM-driven applications!
 
-HttpClient (Java 11+)
+---
 
-🎯 Purpose of This Project
-
-SpringAI is built to demonstrate:
-
-Clean integration between Spring Boot & Groq LLMs
-
-Secure configuration with no hard-coded secrets
-
-Markdown response rendering pipeline
-
-A minimal, clean UI
-
-How to build your own AI app backend
